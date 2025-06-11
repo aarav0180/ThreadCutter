@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,7 +33,7 @@ const Auth = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/app');
+        navigate('/');
       }
     };
     checkAuth();
@@ -44,7 +45,7 @@ const Auth = () => {
           title: "Welcome back!",
           description: "You have successfully signed in.",
         });
-        navigate('/app');
+        navigate('/');
       }
     });
 
@@ -143,7 +144,7 @@ const Auth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/app`,
+            emailRedirectTo: `${window.location.origin}/`,
           },
         });
 
@@ -205,7 +206,7 @@ const Auth = () => {
         type: 'signup',
         email: signupEmail,
         options: {
-          emailRedirectTo: `${window.location.origin}/app`,
+          emailRedirectTo: `${window.location.origin}/`,
         }
       });
 
@@ -242,7 +243,7 @@ const Auth = () => {
       description: "You're now in demo mode. Some features may be limited.",
     });
     setShowEmailConfirmation(false);
-    navigate('/app');
+    navigate('/');
   };
 
   // Show email confirmation screen
