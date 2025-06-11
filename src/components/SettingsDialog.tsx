@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -6,8 +7,10 @@ import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Settings, Crown, User } from 'lucide-react';
+import { Settings, Crown, User, Calendar } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { supabase } from '@/integrations/supabase/client';
+import { usePremium } from '@/hooks/usePremium';
 
 interface SettingsDialogProps {
   isDarkMode: boolean;
@@ -27,7 +30,39 @@ const SettingsDialog = ({
   onProfileUpdate
 }: SettingsDialogProps) => {
   const [profile, setProfile] = useState(userProfile);
+  const [user, setUser] = useState<any>(null);
+  const [premiumExpiry, setPremiumExpiry] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const { isPremium, isLoading } = usePremium(user?.id);
+
+  // Fetch user data and premium status
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      if (authUser) {
+        setUser(authUser);
+        setProfile(prev => ({ ...prev, email: authUser.email || '' }));
+
+        // Fetch premium expiry date
+        if (authUser.id) {
+          const { data: subscription } = await supabase
+            .from('subscriptions')
+            .select('expires_at')
+            .eq('user_id', authUser.id)
+            .eq('status', 'active')
+            .gte('expires_at', new Date().toISOString())
+            .single();
+
+          if (subscription) {
+            setPremiumExpiry(subscription.expires_at);
+          }
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleSaveProfile = () => {
     onProfileUpdate(profile);
@@ -35,6 +70,15 @@ const SettingsDialog = ({
 
   const handlePremiumClick = () => {
     navigate('/premium');
+  };
+
+  const formatExpiryDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
   const tones = [
@@ -123,9 +167,13 @@ const SettingsDialog = ({
                   id="email"
                   type="email"
                   value={profile.email}
-                  onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                  placeholder="Enter your email"
+                  readOnly
+                  className="bg-muted/50 cursor-not-allowed"
+                  placeholder={user?.email || "No email available"}
                 />
+                <p className="text-xs text-muted-foreground">
+                  Email cannot be changed here. Please contact support if needed.
+                </p>
               </div>
               
               <Button onClick={handleSaveProfile} className="w-full">
@@ -140,37 +188,64 @@ const SettingsDialog = ({
                 <Crown className="h-6 w-6 text-yellow-500" />
               </div>
               <div>
-                <h3 className="font-medium">Premium Features</h3>
-                <p className="text-sm text-muted-foreground">Unlock unlimited possibilities</p>
+                <h3 className="font-medium">Premium Status</h3>
+                <p className="text-sm text-muted-foreground">
+                  {isLoading ? 'Loading...' : isPremium ? 'You have premium access' : 'Unlock unlimited possibilities'}
+                </p>
               </div>
             </div>
             
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <span>Unlimited messages</span>
+            {isPremium && premiumExpiry ? (
+              <div className="space-y-4">
+                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Crown className="h-5 w-5 text-green-500" />
+                    <span className="font-semibold text-green-700 dark:text-green-400">Premium Active</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+                    <Calendar className="h-4 w-4" />
+                    <span>Expires on {formatExpiryDate(premiumExpiry)}</span>
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={handlePremiumClick}
+                  className="w-full gradient-primary hover:opacity-90"
+                >
+                  <Crown className="h-4 w-4 mr-2" />
+                  Extend Premium
+                </Button>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <span>Combine multiple tones</span>
+            ) : (
+              <div className="space-y-4">
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span>Unlimited messages</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span>Combine multiple tones</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span>Priority support</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span>Advanced AI features</span>
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={handlePremiumClick}
+                  className="w-full gradient-primary hover:opacity-90"
+                >
+                  <Crown className="h-4 w-4 mr-2" />
+                  Upgrade to Premium
+                </Button>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <span>Priority support</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <span>Advanced AI features</span>
-              </div>
-            </div>
-            
-            <Button 
-              onClick={handlePremiumClick}
-              className="w-full gradient-primary hover:opacity-90"
-            >
-              <Crown className="h-4 w-4 mr-2" />
-              Upgrade to Premium
-            </Button>
+            )}
           </TabsContent>
         </Tabs>
       </DialogContent>
