@@ -1,5 +1,4 @@
 
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -9,6 +8,13 @@ export const usePremium = (userId: string | null) => {
   const [isLoading, setIsLoading] = useState(true);
   const [messageLimit, setMessageLimit] = useState(3);
   const [messagesUsed, setMessagesUsed] = useState(0);
+  const [userCount, setUserCount] = useState(0);
+  const [dynamicPricing, setDynamicPricing] = useState({
+    day: 0.50,
+    week: 2.00,
+    month: 6.00,
+    year: 30.00
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -21,7 +27,40 @@ export const usePremium = (userId: string | null) => {
 
     checkPremiumStatus();
     fetchUsage();
+    fetchUserCountAndPricing();
   }, [userId]);
+
+  const fetchUserCountAndPricing = async () => {
+    try {
+      // Count total users in auth.users
+      const { count, error } = await supabase
+        .from('subscriptions')
+        .select('*', { count: 'exact', head: true });
+
+      if (error) throw error;
+
+      const totalUsers = count || 0;
+      setUserCount(totalUsers);
+
+      // Calculate dynamic pricing - double after 400 users
+      const multiplier = totalUsers >= 400 ? 2 : 1;
+      setDynamicPricing({
+        day: 0.50 * multiplier,
+        week: 2.00 * multiplier,
+        month: 6.00 * multiplier,
+        year: 30.00 * multiplier
+      });
+    } catch (error) {
+      console.error('Error fetching user count:', error);
+      // Default to base pricing on error
+      setDynamicPricing({
+        day: 0.50,
+        week: 2.00,
+        month: 6.00,
+        year: 30.00
+      });
+    }
+  };
 
   const checkPremiumStatus = async () => {
     if (!userId) return;
@@ -189,9 +228,10 @@ export const usePremium = (userId: string | null) => {
     isLoading,
     messageLimit,
     messagesUsed,
+    userCount,
+    dynamicPricing,
     checkPremiumStatus,
     incrementUsage,
     createSubscription
   };
 };
-

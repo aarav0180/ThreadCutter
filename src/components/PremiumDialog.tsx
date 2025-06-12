@@ -1,19 +1,46 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Crown, Check, Sparkles } from 'lucide-react';
+import { usePremium } from '@/hooks/usePremium';
 
 interface PremiumDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  userId?: string | null;
 }
 
-const PremiumDialog = ({ isOpen, onClose }: PremiumDialogProps) => {
+const PremiumDialog = ({ isOpen, onClose, userId }: PremiumDialogProps) => {
+  const { userCount, dynamicPricing } = usePremium(userId);
+
   const plans = [
-    { name: '1 Day', price: '$0.50', period: 'day', dailyPrice: '$0.50' },
-    { name: '1 Week', price: '$2.00', period: 'week', dailyPrice: '$0.29' },
-    { name: '1 Month', price: '$6.00', period: 'month', dailyPrice: '$0.20', popular: true },
-    { name: '1 Year', price: '$30.00', period: 'year', dailyPrice: '$0.08', savings: 'Save 84%' },
+    { 
+      name: '1 Day', 
+      price: `$${dynamicPricing.day.toFixed(2)}`, 
+      period: 'day', 
+      dailyPrice: `$${dynamicPricing.day.toFixed(2)}` 
+    },
+    { 
+      name: '1 Week', 
+      price: `$${dynamicPricing.week.toFixed(2)}`, 
+      period: 'week', 
+      dailyPrice: `$${(dynamicPricing.week / 7).toFixed(2)}` 
+    },
+    { 
+      name: '1 Month', 
+      price: `$${dynamicPricing.month.toFixed(2)}`, 
+      period: 'month', 
+      dailyPrice: `$${(dynamicPricing.month / 30).toFixed(2)}`, 
+      popular: true 
+    },
+    { 
+      name: '1 Year', 
+      price: `$${dynamicPricing.year.toFixed(2)}`, 
+      period: 'year', 
+      dailyPrice: `$${(dynamicPricing.year / 365).toFixed(2)}`, 
+      savings: 'Save 84%' 
+    },
   ];
 
   const features = [
@@ -49,6 +76,27 @@ const PremiumDialog = ({ isOpen, onClose }: PremiumDialogProps) => {
               <p className="text-sm text-amber-600 dark:text-amber-400">
                 You've used all 5 daily messages. Upgrade for unlimited access and premium features.
               </p>
+            </div>
+
+            {/* Special Pricing Banner */}
+            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Sparkles className="w-5 h-5 text-green-500" />
+                <span className="font-semibold text-green-600 dark:text-green-400">
+                  Early Bird Special - First 400 Users Only!
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {userCount < 400 
+                  ? `You're user ${userCount}/400 to get these exclusive rates!`
+                  : `These rates have now doubled for new users.`
+                }
+              </p>
+              {userCount < 400 && (
+                <p className="text-xs text-green-600 dark:text-green-400 font-medium mt-1">
+                  Prices will double after 400 users
+                </p>
+              )}
             </div>
 
             {/* Features */}

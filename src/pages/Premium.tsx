@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,32 +26,32 @@ const Premium = () => {
     getUser();
   }, []);
 
-  const { createSubscription } = usePremium(user?.id);
+  const { createSubscription, userCount, dynamicPricing } = usePremium(user?.id);
 
   const plans = [
     { 
       name: '1 Day', 
-      price: '$0.50', 
+      price: `$${dynamicPricing.day.toFixed(2)}`, 
       period: 'day', 
-      amount: 0.50,
+      amount: dynamicPricing.day,
       description: 'Perfect for trying out premium features',
       badge: 'Trial',
       features: ['Unlimited messages', 'Multiple tones', 'Priority support']
     },
     { 
       name: '1 Week', 
-      price: '$2.00', 
+      price: `$${dynamicPricing.week.toFixed(2)}`, 
       period: 'week', 
-      amount: 2.00,
+      amount: dynamicPricing.week,
       description: 'Great for short-term projects',
       badge: 'Popular',
       features: ['Everything in Trial', 'Advanced customization', 'Export options']
     },
     { 
       name: '1 Month', 
-      price: '$6.00', 
+      price: `$${dynamicPricing.month.toFixed(2)}`, 
       period: 'month', 
-      amount: 6.00,
+      amount: dynamicPricing.month,
       description: 'Best value for regular users',
       badge: 'Recommended',
       popular: true,
@@ -60,9 +59,9 @@ const Premium = () => {
     },
     { 
       name: '1 Year', 
-      price: '$30.00', 
+      price: `$${dynamicPricing.year.toFixed(2)}`, 
       period: 'year', 
-      amount: 30.00,
+      amount: dynamicPricing.year,
       description: 'Maximum savings for power users',
       badge: 'Best Deal',
       savings: 'Save 58%',
@@ -251,6 +250,27 @@ const Premium = () => {
               ThreadCutter Premium
             </h1>
           </div>
+        </div>
+
+        {/* Special Pricing Banner */}
+        <div className="mb-8 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-2xl p-6 text-center">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Sparkles className="w-6 h-6 text-green-500" />
+            <span className="text-lg font-semibold text-green-600 dark:text-green-400">
+              Early Bird Special - First 400 Users Only!
+            </span>
+          </div>
+          <p className="text-muted-foreground">
+            {userCount < 400 
+              ? `You're one of the first ${userCount}/400 users to get these exclusive rates!`
+              : `These rates have now doubled for new users. You were lucky to get in early!`
+            }
+          </p>
+          {userCount < 400 && (
+            <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-2">
+              Prices will double after we reach 400 users
+            </p>
+          )}
         </div>
 
         {/* Hero Section */}
