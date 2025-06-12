@@ -15,12 +15,16 @@ import {
   Rocket,
   Moon,
   Sun,
+  Send,
+  Play,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { usePremium } from "@/hooks/usePremium";
 
 const Landing = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const { userCount, dynamicPricing } = usePremium(null);
 
   // Apply theme on mount and when changed
   useEffect(() => {
@@ -66,30 +70,6 @@ const Landing = () => {
     },
   ];
 
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "Social Media Manager",
-      content:
-        "ThreadCutter has revolutionized how I create content. The AI suggestions are spot-on!",
-      rating: 5,
-    },
-    {
-      name: "Marcus Rodriguez",
-      role: "Content Creator",
-      content:
-        "The multi-platform optimization saves me hours every week. Absolutely game-changing.",
-      rating: 5,
-    },
-    {
-      name: "Emily Davis",
-      role: "Marketing Director",
-      content:
-        "Professional, intuitive, and incredibly powerful. My team loves using ThreadCutter.",
-      rating: 5,
-    },
-  ];
-
   const pricingPlans = [
     {
       name: "Free",
@@ -106,8 +86,8 @@ const Landing = () => {
     },
     {
       name: "Premium",
-      price: "$6",
-      originalPrice: "$12",
+      price: `$${dynamicPricing.month.toFixed(2)}`,
+      originalPrice: userCount >= 400 ? `$${(dynamicPricing.month / 2).toFixed(2)}` : `$${(dynamicPricing.month * 2).toFixed(2)}`,
       period: "month",
       features: [
         "Unlimited messages",
@@ -118,7 +98,7 @@ const Landing = () => {
       ],
       buttonText: "Upgrade to Premium",
       popular: true,
-      earlyBird: true,
+      earlyBird: userCount < 400,
     },
   ];
 
@@ -247,10 +227,10 @@ const Landing = () => {
               Features
             </button>
             <button
-              onClick={() => scrollToSection("testimonials")}
+              onClick={() => scrollToSection("demo")}
               className="text-muted-foreground hover:text-pink-300 transition-colors duration-300"
             >
-              Reviews
+              Demo
             </button>
             <button
               onClick={() => scrollToSection("pricing")}
@@ -470,53 +450,67 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-4 relative">
+      {/* Demo Video Section */}
+      <section id="demo" className="py-20 px-4 relative">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent animate-text-flow">
-              Loved by Creators
+              See ThreadCutter in Action
             </h2>
             <p className="text-xl text-muted-foreground animate-fade-in-up delay-200">
-              Join thousands of creators who trust ThreadCutter
+              Watch how ThreadCutter transforms your ideas into viral content
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card
-                key={index}
-                className="neumorphic border-pink-500/20 hover:border-pink-400/40 transition-all duration-500 bg-card/10 backdrop-blur-sm hover:shadow-xl hover:shadow-pink-500/10 animate-testimonial-float hover:scale-105"
-                style={{ animationDelay: `${index * 300}ms` }}
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-yellow-400 text-yellow-400 animate-star-twinkle"
-                        style={{ animationDelay: `${i * 200}ms` }}
-                      />
-                    ))}
+          <div className="max-w-5xl mx-auto animate-slide-in-up">
+            {/* MacBook Mockup */}
+            <div className="relative">
+              {/* MacBook Shell */}
+              <div className="bg-gradient-to-b from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 rounded-t-3xl p-6 shadow-2xl">
+                {/* Screen Bezel */}
+                <div className="bg-black rounded-t-2xl p-4 relative overflow-hidden">
+                  {/* Camera Notch */}
+                  <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-900 rounded-full"></div>
+                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-600 rounded-full"></div>
+                  
+                  {/* Video Container */}
+                  <div className="relative aspect-video bg-gradient-to-br from-purple-900 to-pink-900 rounded-lg overflow-hidden">
+                    {/* Placeholder for video - in a real implementation, you'd embed your actual demo video */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
+                      <div className="text-center space-y-4">
+                        <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm hover:bg-white/30 transition-all duration-300 cursor-pointer animate-pulse">
+                          <Play className="h-8 w-8 text-white ml-1" />
+                        </div>
+                        <p className="text-white/80 text-lg font-medium">
+                          Demo Video Coming Soon
+                        </p>
+                        <p className="text-white/60 text-sm max-w-md mx-auto">
+                          Experience how ThreadCutter creates engaging content with AI-powered conversations
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Animated UI Elements Overlay */}
+                    <div className="absolute top-4 left-4 right-4">
+                      <div className="bg-black/30 backdrop-blur-sm rounded-lg p-3 mb-3 animate-fade-in">
+                        <div className="h-2 bg-gradient-to-r from-pink-400/60 to-purple-400/60 rounded animate-shimmer-wave"></div>
+                      </div>
+                      <div className="bg-black/30 backdrop-blur-sm rounded-lg p-3 ml-8 animate-fade-in delay-500">
+                        <div className="h-2 bg-gradient-to-r from-blue-400/60 to-green-400/60 rounded w-3/4 animate-shimmer-wave delay-200"></div>
+                      </div>
+                    </div>
                   </div>
-                  <p
-                    className="text-muted-foreground mb-4 italic animate-fade-in-up"
-                    style={{ animationDelay: `${index * 200}ms` }}
-                  >
-                    "{testimonial.content}"
-                  </p>
-                  <div
-                    className="animate-slide-in-left"
-                    style={{ animationDelay: `${index * 250}ms` }}
-                  >
-                    <p className="font-semibold text-foreground">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              </div>
+              
+              {/* MacBook Base */}
+              <div className="h-8 bg-gradient-to-b from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-b-3xl shadow-lg relative">
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-500 to-transparent"></div>
+              </div>
+              
+              {/* Reflection */}
+              <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white/10 rounded-3xl pointer-events-none"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -529,12 +523,21 @@ const Landing = () => {
               Early Bird Pricing
             </h2>
             <p className="text-xl text-muted-foreground animate-fade-in-up delay-200">
-              Special pricing for our first 100 users - prices will increase by
-              $6 after
+              Special pricing for our first 400 users - prices will double after
             </p>
-            <Badge className="mt-4 bg-gradient-to-r from-green-400/20 to-blue-400/20 text-green-300 border-green-400/30 animate-pulse">
-              Limited Time: First 100 Users Only
-            </Badge>
+            <div className="mt-4 space-y-2">
+              <Badge className="bg-gradient-to-r from-green-400/20 to-blue-400/20 text-green-300 border-green-400/30 animate-pulse">
+                {userCount < 400 
+                  ? `Limited Time: ${userCount}/400 Early Bird Users`
+                  : 'Early Bird Pricing Has Ended'
+                }
+              </Badge>
+              {userCount < 400 && (
+                <p className="text-sm text-muted-foreground">
+                  Prices will double after we reach 400 users
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -558,7 +561,7 @@ const Landing = () => {
                 {plan.earlyBird && (
                   <div className="absolute -top-3 right-4">
                     <Badge className="bg-gradient-to-r from-green-400 to-emerald-500 text-white animate-pulse">
-                      50% Off
+                      Early Bird
                     </Badge>
                   </div>
                 )}
@@ -568,7 +571,7 @@ const Landing = () => {
                       {plan.name}
                     </h3>
                     <div className="mb-4 animate-slide-in-up delay-200">
-                      {plan.originalPrice && (
+                      {plan.originalPrice && plan.earlyBird && (
                         <span className="text-lg text-muted-foreground line-through mr-2">
                           {plan.originalPrice}
                         </span>
@@ -580,8 +583,10 @@ const Landing = () => {
                     </div>
                     {plan.earlyBird && (
                       <p className="text-sm text-green-300 animate-fade-in">
-                        Price increases to {plan.originalPrice} after first 100
-                        users
+                        {userCount < 400 
+                          ? `Price increases to ${plan.originalPrice} after first 400 users`
+                          : `Price has increased from ${(dynamicPricing.month / 2).toFixed(2)}`
+                        }
                       </p>
                     )}
                   </div>
@@ -655,81 +660,142 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Feedback Section */}
-      <section id="feedback" className="py-20 px-4 bg-muted/5 relative">
-        <div className="container mx-auto max-w-xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">
+      {/* Enhanced Feedback Section */}
+      <section id="feedback" className="py-20 px-4 bg-muted/5 relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-pink-500/5 to-purple-500/5 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-40 h-40 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 rounded-full blur-2xl animate-pulse delay-1000"></div>
+        </div>
+
+        <div className="container mx-auto max-w-2xl relative z-10">
+          <div className="text-center mb-12 animate-fade-in">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full mb-6 animate-bounce-x">
+              <MessageSquare className="h-8 w-8 text-white" />
+            </div>
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent animate-text-flow">
               We Value Your Feedback
             </h2>
-            <p className="text-muted-foreground">
-              Let us know how we can improve ThreadCutter!
+            <p className="text-xl text-muted-foreground animate-fade-in-up delay-200">
+              Help us make ThreadCutter even better for creators like you
             </p>
           </div>
-          <form
-            onSubmit={handleFeedbackSubmit}
-            className="bg-card/10 p-8 rounded-2xl border border-pink-500/20 shadow-lg space-y-6"
-          >
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-sm text-muted-foreground">
-                Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                value={feedback.name}
-                onChange={handleFeedbackChange}
-                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-foreground focus:border-pink-400 outline-none"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm text-muted-foreground">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={feedback.email}
-                onChange={handleFeedbackChange}
-                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-foreground focus:border-pink-400 outline-none"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="message" className="text-sm text-muted-foreground">
-                Feedback
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={4}
-                value={feedback.message}
-                onChange={handleFeedbackChange}
-                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-foreground focus:border-pink-400 outline-none resize-none"
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 transition-all duration-300"
-              disabled={feedbackStatus === "sending"}
-            >
-              {feedbackStatus === "sending" ? "Sending..." : "Send Feedback"}
-            </Button>
-            {feedbackStatus === "sent" && (
-              <div className="text-green-400 text-center">
-                Thank you for your feedback!
-              </div>
-            )}
-            {feedbackStatus === "error" && (
-              <div className="text-red-400 text-center">
-                Something went wrong. Please try again.
-              </div>
-            )}
-          </form>
+
+          <Card className="neumorphic border-pink-500/20 hover:border-pink-400/40 transition-all duration-500 bg-card/10 backdrop-blur-sm shadow-2xl shadow-pink-500/5 animate-card-rise">
+            <CardContent className="p-8">
+              <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2 animate-slide-in-left">
+                    <label htmlFor="name" className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
+                      Your Name
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required
+                        value={feedback.name}
+                        onChange={handleFeedbackChange}
+                        className="w-full rounded-xl px-4 py-3 bg-background/80 border border-border/30 text-foreground focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 outline-none transition-all duration-300 hover:border-border/50"
+                        placeholder="Enter your name"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-400/5 to-purple-400/5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 animate-slide-in-right">
+                    <label htmlFor="email" className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-200"></div>
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                        value={feedback.email}
+                        onChange={handleFeedbackChange}
+                        className="w-full rounded-xl px-4 py-3 bg-background/80 border border-border/30 text-foreground focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all duration-300 hover:border-border/50"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 animate-fade-in-up delay-300">
+                  <label htmlFor="message" className="text-sm font-medium text-foreground flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-400"></div>
+                    Your Feedback
+                  </label>
+                  <div className="relative">
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      value={feedback.message}
+                      onChange={handleFeedbackChange}
+                      className="w-full rounded-xl px-4 py-3 bg-background/80 border border-border/30 text-foreground focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none resize-none transition-all duration-300 hover:border-border/50"
+                      placeholder="Tell us what you think, what features you'd like to see, or any issues you've encountered..."
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-4 animate-slide-in-up delay-500">
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 transition-all duration-300 py-3 rounded-xl font-medium shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] group"
+                    disabled={feedbackStatus === "sending"}
+                  >
+                    <div className="flex items-center justify-center gap-2">
+                      {feedbackStatus === "sending" ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                          Send Feedback
+                        </>
+                      )}
+                    </div>
+                  </Button>
+                </div>
+
+                {/* Status Messages */}
+                {feedbackStatus === "sent" && (
+                  <div className="text-center animate-fade-in">
+                    <div className="inline-flex items-center gap-2 text-green-400 bg-green-400/10 px-4 py-3 rounded-xl border border-green-400/20">
+                      <Check className="h-5 w-5" />
+                      <span className="font-medium">Thank you for your feedback! We'll be in touch soon.</span>
+                    </div>
+                  </div>
+                )}
+
+                {feedbackStatus === "error" && (
+                  <div className="text-center animate-fade-in">
+                    <div className="inline-flex items-center gap-2 text-red-400 bg-red-400/10 px-4 py-3 rounded-xl border border-red-400/20">
+                      <span className="font-medium">Something went wrong. Please try again or contact us directly.</span>
+                    </div>
+                  </div>
+                )}
+              </form>
+            </CardContent>
+          </Card>
+
+          {/* Additional Contact Info */}
+          <div className="text-center mt-8 animate-fade-in delay-700">
+            <p className="text-sm text-muted-foreground">
+              You can also reach us at{" "}
+              <a href="mailto:support@threadcutter.com" className="text-pink-400 hover:text-pink-300 transition-colors duration-300 underline">
+                support@threadcutter.com
+              </a>
+            </p>
+          </div>
         </div>
       </section>
 
