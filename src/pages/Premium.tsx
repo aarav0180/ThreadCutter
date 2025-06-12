@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,12 +11,12 @@ import PaymentConfirmation from '@/components/PaymentConfirmation';
 
 const Premium = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [purchaseSuccess, setPurchaseSuccess] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>('');
   const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
   const [purchasedPlan, setPurchasedPlan] = useState<any>(null);
+  const [user, setUser] = useState<any>(null);
   const { toast } = useToast();
 
   React.useEffect(() => {
@@ -117,7 +118,10 @@ const Premium = () => {
   };
 
   const handlePurchase = async (plan: any) => {
-    if (!user) {
+    // Get fresh user data to ensure we have the latest authentication state
+    const { data: { user: currentUser } } = await supabase.auth.getUser();
+    
+    if (!currentUser) {
       toast({
         title: "Authentication Required",
         description: "Please sign in to upgrade to premium.",
