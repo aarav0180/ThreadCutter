@@ -13,11 +13,28 @@ import {
   Star,
   Check,
   Rocket,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const Landing = () => {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  // Apply theme on mount and when changed
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   const features = [
     {
       icon: MessageSquare,
@@ -186,7 +203,7 @@ const Landing = () => {
   };
 
   return (
-    <div className="dark min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-white overflow-hidden">
+    <div className={`${isDarkMode ? 'dark' : ''} min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground overflow-hidden`}>
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -225,31 +242,45 @@ const Landing = () => {
           <div className="hidden md:flex items-center space-x-6 animate-slide-in-left delay-200">
             <button
               onClick={() => scrollToSection("features")}
-              className="text-gray-300 hover:text-pink-300 transition-colors duration-300"
+              className="text-muted-foreground hover:text-pink-300 transition-colors duration-300"
             >
               Features
             </button>
             <button
               onClick={() => scrollToSection("testimonials")}
-              className="text-gray-300 hover:text-pink-300 transition-colors duration-300"
+              className="text-muted-foreground hover:text-pink-300 transition-colors duration-300"
             >
               Reviews
             </button>
             <button
               onClick={() => scrollToSection("pricing")}
-              className="text-gray-300 hover:text-pink-300 transition-colors duration-300"
+              className="text-muted-foreground hover:text-pink-300 transition-colors duration-300"
             >
               Pricing
             </button>
             <Link
               to="/support"
-              className="text-gray-300 hover:text-pink-300 transition-colors duration-300"
+              className="text-muted-foreground hover:text-pink-300 transition-colors duration-300"
             >
               Support
             </Link>
           </div>
 
           <div className="flex items-center space-x-4 animate-slide-in-left delay-300">
+            {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="border border-pink-500/20 neumorphic"
+            >
+              {isDarkMode ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+
             {!isGuest ? (
               <>
                 <Link to="/app">
@@ -259,7 +290,7 @@ const Landing = () => {
                 </Link>
                 <Button
                   variant="ghost"
-                  className="text-white hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300"
+                  className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300"
                   onClick={async () => {
                     await supabase.auth.signOut();
                     setUser(null);
@@ -274,7 +305,7 @@ const Landing = () => {
                 <Link to="/auth">
                   <Button
                     variant="ghost"
-                    className="text-white hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300"
+                    className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300"
                   >
                     Sign In
                   </Button>
@@ -307,7 +338,7 @@ const Landing = () => {
                 Viral Content
               </span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up">
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up">
               Create engaging social media content with AI-powered
               conversations. Optimize for multiple platforms, customize your
               tone, and watch your engagement soar.
@@ -322,7 +353,7 @@ const Landing = () => {
                   </Link>
                   <Button
                     variant="outline"
-                    className="border-pink-400/30 hover:bg-pink-500/10 text-gray-300 hover:text-white hover:border-pink-400/50 px-8 py-6 text-lg"
+                    className="border-pink-400/30 hover:bg-pink-500/10 text-muted-foreground hover:text-foreground hover:border-pink-400/50 px-8 py-6 text-lg"
                     onClick={async () => {
                       await supabase.auth.signOut();
                       setUser(null);
@@ -345,7 +376,7 @@ const Landing = () => {
                   <Link to="/app">
                     <Button
                       variant="outline"
-                      className="border-pink-400/30 hover:bg-pink-500/10 text-gray-300 hover:text-white hover:border-pink-400/50 px-8 py-6 text-lg"
+                      className="border-pink-400/30 hover:bg-pink-500/10 text-muted-foreground hover:text-foreground hover:border-pink-400/50 px-8 py-6 text-lg"
                     >
                       Try Free
                     </Button>
@@ -375,11 +406,11 @@ const Landing = () => {
                 <div className="mt-6 p-4 bg-muted/10 rounded-lg border border-purple-400/20">
                   <div className="flex items-center space-x-2 mb-2">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-sm text-gray-400 animate-fade-in">
+                    <span className="text-sm text-muted-foreground animate-fade-in">
                       AI Assistant
                     </span>
                   </div>
-                  <div className="text-left text-gray-300 animate-text-reveal delay-1000">
+                  <div className="text-left text-muted-foreground animate-text-reveal delay-1000">
                     "Here's your optimized Twitter thread about AI trends..."
                   </div>
                   <div className="mt-2 flex space-x-1">
@@ -401,7 +432,7 @@ const Landing = () => {
             <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent animate-text-flow">
               Powerful Features
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto animate-fade-in-up delay-200">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in-up delay-200">
               Everything you need to create, optimize, and share amazing content
               across all platforms
             </p>
@@ -421,13 +452,13 @@ const Landing = () => {
                     <feature.icon className="h-6 w-6 text-white animate-bounce-x delay-1000" />
                   </div>
                   <h3
-                    className="text-lg font-semibold mb-2 text-white group-hover:text-pink-300 transition-colors duration-300 animate-fade-in-up"
+                    className="text-lg font-semibold mb-2 text-foreground group-hover:text-pink-300 transition-colors duration-300 animate-fade-in-up"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     {feature.title}
                   </h3>
                   <p
-                    className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300 animate-fade-in-up"
+                    className="text-muted-foreground text-sm group-hover:text-muted-foreground transition-colors duration-300 animate-fade-in-up"
                     style={{ animationDelay: `${index * 150}ms` }}
                   >
                     {feature.description}
@@ -446,7 +477,7 @@ const Landing = () => {
             <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent animate-text-flow">
               Loved by Creators
             </h2>
-            <p className="text-xl text-gray-300 animate-fade-in-up delay-200">
+            <p className="text-xl text-muted-foreground animate-fade-in-up delay-200">
               Join thousands of creators who trust ThreadCutter
             </p>
           </div>
@@ -469,7 +500,7 @@ const Landing = () => {
                     ))}
                   </div>
                   <p
-                    className="text-gray-300 mb-4 italic animate-fade-in-up"
+                    className="text-muted-foreground mb-4 italic animate-fade-in-up"
                     style={{ animationDelay: `${index * 200}ms` }}
                   >
                     "{testimonial.content}"
@@ -478,10 +509,10 @@ const Landing = () => {
                     className="animate-slide-in-left"
                     style={{ animationDelay: `${index * 250}ms` }}
                   >
-                    <p className="font-semibold text-white">
+                    <p className="font-semibold text-foreground">
                       {testimonial.name}
                     </p>
-                    <p className="text-sm text-gray-400">{testimonial.role}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -497,7 +528,7 @@ const Landing = () => {
             <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent animate-text-flow">
               Early Bird Pricing
             </h2>
-            <p className="text-xl text-gray-300 animate-fade-in-up delay-200">
+            <p className="text-xl text-muted-foreground animate-fade-in-up delay-200">
               Special pricing for our first 100 users - prices will increase by
               $6 after
             </p>
@@ -533,19 +564,19 @@ const Landing = () => {
                 )}
                 <CardContent className="p-8">
                   <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold mb-2 text-white animate-fade-in-up">
+                    <h3 className="text-2xl font-bold mb-2 text-foreground animate-fade-in-up">
                       {plan.name}
                     </h3>
                     <div className="mb-4 animate-slide-in-up delay-200">
                       {plan.originalPrice && (
-                        <span className="text-lg text-gray-400 line-through mr-2">
+                        <span className="text-lg text-muted-foreground line-through mr-2">
                           {plan.originalPrice}
                         </span>
                       )}
-                      <span className="text-4xl font-bold text-white">
+                      <span className="text-4xl font-bold text-foreground">
                         {plan.price}
                       </span>
-                      <span className="text-gray-400">/{plan.period}</span>
+                      <span className="text-muted-foreground">/{plan.period}</span>
                     </div>
                     {plan.earlyBird && (
                       <p className="text-sm text-green-300 animate-fade-in">
@@ -563,7 +594,7 @@ const Landing = () => {
                         style={{ animationDelay: `${featureIndex * 100}ms` }}
                       >
                         <Check className="h-4 w-4 text-green-400 animate-check-mark" />
-                        <span className="text-sm text-gray-300">{feature}</span>
+                        <span className="text-sm text-muted-foreground">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -573,7 +604,7 @@ const Landing = () => {
                       className={`w-full transition-all duration-300 hover:scale-105 ${
                         plan.popular
                           ? "bg-gradient-to-r from-blue-400 to-purple-500 text-white hover:from-blue-300 hover:to-purple-400"
-                          : "border-pink-400/30 hover:bg-pink-500/10 text-gray-300 hover:text-white hover:border-pink-400/50"
+                          : "border-pink-400/30 hover:bg-pink-500/10 text-muted-foreground hover:text-foreground hover:border-pink-400/50"
                       }`}
                       variant={plan.popular ? "default" : "outline"}
                     >
@@ -595,7 +626,7 @@ const Landing = () => {
             <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent animate-text-flow">
               Ready to Transform Your Content?
             </h2>
-            <p className="text-xl text-gray-300 mb-8 animate-fade-in-up delay-300">
+            <p className="text-xl text-muted-foreground mb-8 animate-fade-in-up delay-300">
               Join thousands of creators who are already using ThreadCutter to
               grow their audience
             </p>
@@ -613,7 +644,7 @@ const Landing = () => {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="px-8 py-6 text-lg border-pink-400/30 hover:bg-pink-500/10 text-gray-300 hover:text-white transition-all duration-300 hover:border-pink-400/50"
+                  className="px-8 py-6 text-lg border-pink-400/30 hover:bg-pink-500/10 text-muted-foreground hover:text-foreground transition-all duration-300 hover:border-pink-400/50"
                 >
                   <Crown className="mr-2 h-5 w-5 animate-crown-glow" />
                   View Premium
@@ -631,7 +662,7 @@ const Landing = () => {
             <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">
               We Value Your Feedback
             </h2>
-            <p className="text-gray-300">
+            <p className="text-muted-foreground">
               Let us know how we can improve ThreadCutter!
             </p>
           </div>
@@ -640,7 +671,7 @@ const Landing = () => {
             className="bg-card/10 p-8 rounded-2xl border border-pink-500/20 shadow-lg space-y-6"
           >
             <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-sm text-gray-300">
+              <label htmlFor="name" className="text-sm text-muted-foreground">
                 Name
               </label>
               <input
@@ -650,11 +681,11 @@ const Landing = () => {
                 required
                 value={feedback.name}
                 onChange={handleFeedbackChange}
-                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-white focus:border-pink-400 outline-none"
+                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-foreground focus:border-pink-400 outline-none"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm text-gray-300">
+              <label htmlFor="email" className="text-sm text-muted-foreground">
                 Email
               </label>
               <input
@@ -664,11 +695,11 @@ const Landing = () => {
                 required
                 value={feedback.email}
                 onChange={handleFeedbackChange}
-                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-white focus:border-pink-400 outline-none"
+                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-foreground focus:border-pink-400 outline-none"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="message" className="text-sm text-gray-300">
+              <label htmlFor="message" className="text-sm text-muted-foreground">
                 Feedback
               </label>
               <textarea
@@ -678,7 +709,7 @@ const Landing = () => {
                 rows={4}
                 value={feedback.message}
                 onChange={handleFeedbackChange}
-                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-white focus:border-pink-400 outline-none resize-none"
+                className="rounded-md px-3 py-2 bg-background/80 border border-border/30 text-foreground focus:border-pink-400 outline-none resize-none"
               />
             </div>
             <Button
@@ -714,16 +745,16 @@ const Landing = () => {
                 ThreadCutter
               </span>
             </div>
-            <div className="flex items-center space-x-6 text-sm text-gray-400 animate-slide-in-left delay-300">
+            <div className="flex items-center space-x-6 text-sm text-muted-foreground animate-slide-in-left delay-300">
               <Link
                 to="/support"
-                className="hover:text-white transition-colors duration-300 hover:scale-105"
+                className="hover:text-foreground transition-colors duration-300 hover:scale-105"
               >
                 Support
               </Link>
               <Link
                 to="/premium"
-                className="hover:text-white transition-colors duration-300 hover:scale-105"
+                className="hover:text-foreground transition-colors duration-300 hover:scale-105"
               >
                 Premium
               </Link>
