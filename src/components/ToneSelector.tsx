@@ -98,8 +98,12 @@ const ToneSelector = ({
     }
   };
 
-  const removeTone = (toneValue: string) => {
-    // Premium users can remove individual tones
+  const removeTone = (toneValue: string, event: React.MouseEvent) => {
+    // Stop the event from bubbling up to the parent button
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // For premium users, remove the specific tone
     if (isPremium) {
       onTonesChange(toneValue);
     }
@@ -131,13 +135,13 @@ const ToneSelector = ({
           <span className="mr-1">{tone.icon}</span>
           {tone.label}
           {isPremium && (
-            <X 
-              className="w-3 h-3 ml-1 hover:bg-white/20 rounded-full cursor-pointer p-0.5" 
-              onClick={(e) => {
-                e.stopPropagation();
-                removeTone(tone.value);
-              }}
-            />
+            <button
+              onClick={(e) => removeTone(tone.value, e)}
+              className="ml-1 hover:bg-white/20 rounded-full p-0.5 flex items-center justify-center w-4 h-4"
+              aria-label={`Remove ${tone.label} tone`}
+            >
+              <X className="w-3 h-3" />
+            </button>
           )}
         </Button>
       ))}
