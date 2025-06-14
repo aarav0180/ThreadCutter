@@ -486,96 +486,132 @@ const Landing = () => {
           </div>
 
           <div className="max-w-6xl mx-auto animate-slide-in-up">
-            {/* Enhanced MacBook Mockup */}
+            {/* Enhanced Realistic MacBook Pro Mockup */}
             <div className="relative perspective-1000">
-              {/* MacBook Pro Shell */}
               <div className="relative transform-style-preserve-3d">
-                {/* Screen */}
-                <div className="relative bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-t-[2rem] p-6 shadow-2xl border border-gray-700">
-                  {/* MacBook Bezel */}
-                  <div className="bg-black rounded-t-[1.5rem] p-4 relative overflow-hidden shadow-inner">
-                    {/* Camera Notch */}
-                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-20 h-6 bg-gray-900 rounded-full shadow-lg flex items-center justify-center">
-                      <div className="w-3 h-3 bg-gray-600 rounded-full shadow-inner"></div>
+                {/* MacBook Pro 16" Proportions */}
+                <div className="relative bg-gradient-to-b from-gray-200 via-gray-300 to-gray-400 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800 rounded-t-3xl shadow-2xl">
+                  {/* Top Aluminum Edge */}
+                  <div className="h-4 bg-gradient-to-b from-gray-300 to-gray-400 dark:from-gray-500 dark:to-gray-600 rounded-t-3xl relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 dark:via-white/10 to-transparent rounded-t-3xl"></div>
+                  </div>
+                  
+                  {/* Screen Bezel */}
+                  <div className="bg-black rounded-t-[1.8rem] mx-3 p-2 relative">
+                    {/* Dynamic Island/Notch */}
+                    <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-32 h-7 bg-black rounded-full z-20 flex items-center justify-center shadow-lg">
+                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2"></div>
+                      <div className="w-20 h-1 bg-gray-800 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full ml-2"></div>
                     </div>
                     
                     {/* Screen Content */}
-                    <div className="relative aspect-video bg-gradient-to-br from-purple-900 via-gray-900 to-pink-900 rounded-lg overflow-hidden mt-6 shadow-2xl">
-                      {/* Glowing Screen Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10"></div>
+                    <div className="relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-[1.3rem] overflow-hidden shadow-2xl" style={{ aspectRatio: '16/10' }}>
+                      {/* Screen Glow Effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-pink-500/20 pointer-events-none"></div>
                       
-                      {/* Main Content Area */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center space-y-6 z-10">
-                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm hover:bg-white/30 transition-all duration-300 cursor-pointer animate-pulse border border-white/30 shadow-lg">
-                            <Play className="h-10 w-10 text-white ml-1 drop-shadow-lg" />
+                      {/* Main Content */}
+                      <div className="absolute inset-0 flex items-center justify-center p-8">
+                        <div className="text-center space-y-8 z-10 max-w-md">
+                          {/* Play Button */}
+                          <div className="relative group">
+                            <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center mx-auto cursor-pointer transition-all duration-300 group-hover:bg-white/20 group-hover:scale-110 border border-white/20 shadow-2xl">
+                              <Play className="h-8 w-8 text-white ml-1 drop-shadow-lg" />
+                            </div>
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                           </div>
-                          <div className="space-y-2">
-                            <p className="text-white/90 text-xl font-semibold drop-shadow-lg">
-                              Demo Video Coming Soon
+                          
+                          {/* Text Content */}
+                          <div className="space-y-3">
+                            <h3 className="text-white text-2xl font-bold drop-shadow-lg">
+                              Demo Coming Soon
+                            </h3>
+                            <p className="text-white/80 text-sm leading-relaxed max-w-xs mx-auto">
+                              See how ThreadCutter transforms your ideas into engaging social media content
                             </p>
-                            <p className="text-white/70 text-sm max-w-md mx-auto leading-relaxed">
-                              Experience how ThreadCutter creates engaging content with AI-powered conversations
-                            </p>
                           </div>
-                        </div>
-                      </div>
-                      
-                      {/* Animated UI Elements */}
-                      <div className="absolute top-6 left-6 right-6 space-y-3">
-                        {/* Chat Bubble 1 */}
-                        <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10 animate-fade-in shadow-lg">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                            <span className="text-white/80 text-xs font-medium">You</span>
-                          </div>
-                          <div className="h-2 bg-gradient-to-r from-pink-400/60 to-purple-400/60 rounded animate-shimmer-wave w-3/4"></div>
                         </div>
                         
-                        {/* Chat Bubble 2 */}
-                        <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 ml-8 border border-white/10 animate-fade-in delay-500 shadow-lg">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                            <span className="text-white/80 text-xs font-medium">AI Assistant</span>
+                        {/* Floating UI Elements */}
+                        <div className="absolute top-8 left-8 right-8 space-y-4">
+                          {/* Chat Message 1 */}
+                          <div className="bg-black/60 backdrop-blur-xl rounded-2xl p-4 border border-white/10 animate-fade-in shadow-xl max-w-sm">
+                            <div className="flex items-center space-x-2 mb-3">
+                              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                              <span className="text-white/90 text-xs font-medium">You</span>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="h-2 bg-gradient-to-r from-pink-400/70 to-purple-400/70 rounded-full animate-shimmer-wave"></div>
+                              <div className="h-2 bg-gradient-to-r from-purple-400/50 to-blue-400/50 rounded-full animate-shimmer-wave delay-200 w-3/4"></div>
+                            </div>
                           </div>
-                          <div className="space-y-1">
-                            <div className="h-2 bg-gradient-to-r from-blue-400/60 to-green-400/60 rounded animate-shimmer-wave delay-200"></div>
-                            <div className="h-2 bg-gradient-to-r from-purple-400/60 to-pink-400/60 rounded animate-shimmer-wave delay-400 w-2/3"></div>
+                          
+                          {/* Chat Message 2 */}
+                          <div className="bg-black/60 backdrop-blur-xl rounded-2xl p-4 ml-12 border border-white/10 animate-fade-in delay-500 shadow-xl max-w-sm">
+                            <div className="flex items-center space-x-2 mb-3">
+                              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-300"></div>
+                              <span className="text-white/90 text-xs font-medium">AI Assistant</span>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="h-2 bg-gradient-to-r from-blue-400/70 to-cyan-400/70 rounded-full animate-shimmer-wave delay-300"></div>
+                              <div className="h-2 bg-gradient-to-r from-cyan-400/50 to-emerald-400/50 rounded-full animate-shimmer-wave delay-500 w-4/5"></div>
+                              <div className="h-2 bg-gradient-to-r from-emerald-400/50 to-blue-400/50 rounded-full animate-shimmer-wave delay-700 w-2/3"></div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Bottom Status Bar */}
+                        <div className="absolute bottom-6 left-8 right-8">
+                          <div className="bg-black/40 backdrop-blur-xl rounded-xl p-3 border border-white/10 shadow-xl">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-2">
+                                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                                <span className="text-white/80 text-xs">AI is typing...</span>
+                              </div>
+                              <div className="flex space-x-1">
+                                <div className="w-1 h-1 bg-pink-400/80 rounded-full animate-pulse delay-200"></div>
+                                <div className="w-1 h-1 bg-purple-400/80 rounded-full animate-pulse delay-400"></div>
+                                <div className="w-1 h-1 bg-blue-400/80 rounded-full animate-pulse delay-600"></div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-
-                      {/* Floating particles for depth */}
-                      <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-pink-400/60 rounded-full animate-float delay-1000"></div>
-                      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-float delay-2000"></div>
-                      <div className="absolute bottom-1/4 left-1/5 w-2 h-2 bg-blue-400/40 rounded-full animate-float delay-3000"></div>
+                      
+                      {/* Screen Inner Shadow */}
+                      <div className="absolute inset-0 rounded-[1.3rem] shadow-inner pointer-events-none"></div>
                     </div>
                   </div>
                 </div>
                 
-                {/* MacBook Base/Keyboard */}
+                {/* MacBook Base */}
                 <div className="relative">
-                  {/* Keyboard Area */}
-                  <div className="h-16 bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800 rounded-b-[2rem] shadow-xl relative overflow-hidden">
-                    {/* Keyboard texture */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+                  {/* Keyboard/Trackpad Section */}
+                  <div className="h-20 bg-gradient-to-b from-gray-200 via-gray-300 to-gray-400 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800 rounded-b-3xl shadow-2xl relative overflow-hidden">
+                    {/* Keyboard Texture */}
+                    <div className="absolute inset-0">
+                      <div className="h-full bg-gradient-to-b from-black/5 via-transparent to-black/20 dark:from-white/5 dark:to-black/30"></div>
+                      {/* Subtle keyboard key hints */}
+                      <div className="absolute top-3 left-8 right-8 h-8 bg-gradient-to-r from-transparent via-gray-400/30 dark:via-gray-500/30 to-transparent rounded opacity-40"></div>
+                    </div>
                     
-                    {/* Apple Logo Area */}
-                    <div className="absolute inset-x-0 top-2 h-1 bg-gradient-to-r from-transparent via-gray-500 dark:via-gray-400 to-transparent opacity-60"></div>
+                    {/* Trackpad */}
+                    <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-32 h-4 bg-gray-300/50 dark:bg-gray-600/50 rounded-lg border border-gray-400/30 dark:border-gray-500/30 shadow-inner"></div>
                     
-                    {/* Trackpad indication */}
-                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-3 bg-gray-400/30 dark:bg-gray-500/30 rounded border border-gray-500/20"></div>
+                    {/* Edge Highlight */}
+                    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-500 to-transparent"></div>
                   </div>
                   
-                  {/* Bottom edge highlight */}
-                  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-300 to-transparent"></div>
+                  {/* Bottom Edge */}
+                  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-300 to-transparent opacity-60"></div>
                 </div>
                 
-                {/* Screen Reflection */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-t-[2rem] pointer-events-none"></div>
+                {/* Screen Reflections */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-t-3xl pointer-events-none"></div>
+                <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-gradient-to-br from-white/20 to-transparent rounded-tl-3xl pointer-events-none"></div>
                 
-                {/* Ambient glow */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-blue-500/5 blur-xl rounded-3xl -z-10"></div>
+                {/* Ambient Lighting */}
+                <div className="absolute -inset-8 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 blur-3xl rounded-3xl -z-10 animate-pulse"></div>
               </div>
             </div>
           </div>
