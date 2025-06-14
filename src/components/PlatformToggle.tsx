@@ -35,7 +35,7 @@ const PlatformToggle = ({ selected, onSelect }: PlatformToggleProps) => {
                 : 'text-foreground hover:bg-pink-500/10'}`
             }
           >
-            <Icon className="w-4 h-4" style={{ color: '#ffffff' }} />
+            <Icon className="w-4 h-4" />
             <span className="hidden md:inline font-medium">{platform.name}</span>
           </Button>
         );

@@ -145,7 +145,7 @@ const ChatSidebar = ({
         )}
 
         {!isCollapsed && (
-          <ScrollArea className="flex-1 max-h-[49vh] overflow-y-auto">
+          <ScrollArea className="flex-1 max-h-[47vh] overflow-y-auto">
             <div className="px-3 py-2 space-y-2">
               {chats.map((chat) => (
                 <button
