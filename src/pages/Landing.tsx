@@ -292,15 +292,14 @@ const Landing = () => {
                 </Link>
                 <Button
                   variant="ghost"
-                  className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300 text-sm md:text-base px-3 md:px-4 py-2"
+                  className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300 text-sm md:text-base px-2 sm:px-3 md:px-4 py-2"
                   onClick={async () => {
                     await supabase.auth.signOut();
                     setUser(null);
                     setIsGuest(true);
                   }}
                 >
-                  <span className="hidden sm:inline">Sign Out</span>
-                  <span className="sm:hidden">Out</span>
+                  Sign Out
                 </Button>
               </>
             ) : (
@@ -819,7 +818,7 @@ const Landing = () => {
                 <div className="pt-4 animate-slide-in-up delay-500">
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 transition-all duration-300 py-3 rounded-xl font-medium shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] group"
+                    className="w-full bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 px-8 py-6 text-lg transition-all duration-300 py-3 rounded-xl font-medium shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] group"
                     disabled={feedbackStatus === "sending"}
                   >
                     <div className="flex items-center justify-center gap-2">
