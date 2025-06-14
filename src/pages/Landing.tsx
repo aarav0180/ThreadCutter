@@ -17,6 +17,7 @@ import {
   Sun,
   Send,
   Play,
+  Menu,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,6 +25,7 @@ import { usePremium } from "@/hooks/usePremium";
 
 const Landing = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [premiumUserCount, setPremiumUserCount] = useState(0);
   const { userCount, dynamicPricing } = usePremium(null);
 
   // Apply theme on mount and when changed
@@ -34,6 +36,26 @@ const Landing = () => {
       document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
+
+  // Fetch premium user count
+  useEffect(() => {
+    const fetchPremiumUserCount = async () => {
+      try {
+        const { count, error } = await supabase
+          .from('subscriptions')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'active')
+          .gte('expires_at', new Date().toISOString());
+
+        if (error) throw error;
+        setPremiumUserCount(count || 0);
+      } catch (error) {
+        console.error('Error fetching premium user count:', error);
+      }
+    };
+
+    fetchPremiumUserCount();
+  }, []);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -246,53 +268,55 @@ const Landing = () => {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4 animate-slide-in-left delay-300">
-            {/* Theme Toggle */}
+          <div className="flex items-center space-x-2 md:space-x-4 animate-slide-in-left delay-300">
+            {/* Theme Toggle - Made responsive */}
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="border border-pink-500/20 neumorphic"
+              className="border border-pink-500/20 neumorphic shrink-0 w-9 h-9 md:w-10 md:h-10"
             >
               {isDarkMode ? (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-4 w-4 md:h-5 md:w-5" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-4 w-4 md:h-5 md:w-5" />
               )}
             </Button>
 
             {!isGuest ? (
               <>
-                <Link to="/app">
-                  <Button className="bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 transition-all duration-300 hover:scale-105">
+                <Link to="/app" className="hidden sm:block">
+                  <Button className="bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 transition-all duration-300 hover:scale-105 text-sm md:text-base px-3 md:px-4 py-2">
                     Go to App
                   </Button>
                 </Link>
                 <Button
                   variant="ghost"
-                  className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300"
+                  className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300 text-sm md:text-base px-3 md:px-4 py-2"
                   onClick={async () => {
                     await supabase.auth.signOut();
                     setUser(null);
                     setIsGuest(true);
                   }}
                 >
-                  Sign Out
+                  <span className="hidden sm:inline">Sign Out</span>
+                  <span className="sm:hidden">Out</span>
                 </Button>
               </>
             ) : (
               <>
-                <Link to="/auth">
+                <Link to="/auth" className="hidden sm:block">
                   <Button
                     variant="ghost"
-                    className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300"
+                    className="text-foreground hover:bg-pink-500/10 hover:text-pink-300 transition-all duration-300 text-sm md:text-base px-3 md:px-4 py-2"
                   >
                     Sign In
                   </Button>
                 </Link>
                 <Link to="/app">
-                  <Button className="bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 transition-all duration-300 hover:scale-105">
-                    Try Free
+                  <Button className="bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-300 hover:to-purple-400 transition-all duration-300 hover:scale-105 text-sm md:text-base px-3 md:px-4 py-2">
+                    <span className="hidden sm:inline">Try Free</span>
+                    <span className="sm:hidden">Try</span>
                   </Button>
                 </Link>
               </>
@@ -462,54 +486,98 @@ const Landing = () => {
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto animate-slide-in-up">
-            {/* MacBook Mockup */}
-            <div className="relative">
-              {/* MacBook Shell */}
-              <div className="bg-gradient-to-b from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 rounded-t-3xl p-6 shadow-2xl">
-                {/* Screen Bezel */}
-                <div className="bg-black rounded-t-2xl p-4 relative overflow-hidden">
-                  {/* Camera Notch */}
-                  <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-900 rounded-full"></div>
-                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-600 rounded-full"></div>
-                  
-                  {/* Video Container */}
-                  <div className="relative aspect-video bg-gradient-to-br from-purple-900 to-pink-900 rounded-lg overflow-hidden">
-                    {/* Placeholder for video - in a real implementation, you'd embed your actual demo video */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
-                      <div className="text-center space-y-4">
-                        <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm hover:bg-white/30 transition-all duration-300 cursor-pointer animate-pulse">
-                          <Play className="h-8 w-8 text-white ml-1" />
-                        </div>
-                        <p className="text-white/80 text-lg font-medium">
-                          Demo Video Coming Soon
-                        </p>
-                        <p className="text-white/60 text-sm max-w-md mx-auto">
-                          Experience how ThreadCutter creates engaging content with AI-powered conversations
-                        </p>
-                      </div>
+          <div className="max-w-6xl mx-auto animate-slide-in-up">
+            {/* Enhanced MacBook Mockup */}
+            <div className="relative perspective-1000">
+              {/* MacBook Pro Shell */}
+              <div className="relative transform-style-preserve-3d">
+                {/* Screen */}
+                <div className="relative bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-t-[2rem] p-6 shadow-2xl border border-gray-700">
+                  {/* MacBook Bezel */}
+                  <div className="bg-black rounded-t-[1.5rem] p-4 relative overflow-hidden shadow-inner">
+                    {/* Camera Notch */}
+                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-20 h-6 bg-gray-900 rounded-full shadow-lg flex items-center justify-center">
+                      <div className="w-3 h-3 bg-gray-600 rounded-full shadow-inner"></div>
                     </div>
                     
-                    {/* Animated UI Elements Overlay */}
-                    <div className="absolute top-4 left-4 right-4">
-                      <div className="bg-black/30 backdrop-blur-sm rounded-lg p-3 mb-3 animate-fade-in">
-                        <div className="h-2 bg-gradient-to-r from-pink-400/60 to-purple-400/60 rounded animate-shimmer-wave"></div>
+                    {/* Screen Content */}
+                    <div className="relative aspect-video bg-gradient-to-br from-purple-900 via-gray-900 to-pink-900 rounded-lg overflow-hidden mt-6 shadow-2xl">
+                      {/* Glowing Screen Effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10"></div>
+                      
+                      {/* Main Content Area */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center space-y-6 z-10">
+                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm hover:bg-white/30 transition-all duration-300 cursor-pointer animate-pulse border border-white/30 shadow-lg">
+                            <Play className="h-10 w-10 text-white ml-1 drop-shadow-lg" />
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-white/90 text-xl font-semibold drop-shadow-lg">
+                              Demo Video Coming Soon
+                            </p>
+                            <p className="text-white/70 text-sm max-w-md mx-auto leading-relaxed">
+                              Experience how ThreadCutter creates engaging content with AI-powered conversations
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="bg-black/30 backdrop-blur-sm rounded-lg p-3 ml-8 animate-fade-in delay-500">
-                        <div className="h-2 bg-gradient-to-r from-blue-400/60 to-green-400/60 rounded w-3/4 animate-shimmer-wave delay-200"></div>
+                      
+                      {/* Animated UI Elements */}
+                      <div className="absolute top-6 left-6 right-6 space-y-3">
+                        {/* Chat Bubble 1 */}
+                        <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10 animate-fade-in shadow-lg">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span className="text-white/80 text-xs font-medium">You</span>
+                          </div>
+                          <div className="h-2 bg-gradient-to-r from-pink-400/60 to-purple-400/60 rounded animate-shimmer-wave w-3/4"></div>
+                        </div>
+                        
+                        {/* Chat Bubble 2 */}
+                        <div className="bg-black/40 backdrop-blur-md rounded-xl p-4 ml-8 border border-white/10 animate-fade-in delay-500 shadow-lg">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                            <span className="text-white/80 text-xs font-medium">AI Assistant</span>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="h-2 bg-gradient-to-r from-blue-400/60 to-green-400/60 rounded animate-shimmer-wave delay-200"></div>
+                            <div className="h-2 bg-gradient-to-r from-purple-400/60 to-pink-400/60 rounded animate-shimmer-wave delay-400 w-2/3"></div>
+                          </div>
+                        </div>
                       </div>
+
+                      {/* Floating particles for depth */}
+                      <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-pink-400/60 rounded-full animate-float delay-1000"></div>
+                      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-float delay-2000"></div>
+                      <div className="absolute bottom-1/4 left-1/5 w-2 h-2 bg-blue-400/40 rounded-full animate-float delay-3000"></div>
                     </div>
                   </div>
                 </div>
+                
+                {/* MacBook Base/Keyboard */}
+                <div className="relative">
+                  {/* Keyboard Area */}
+                  <div className="h-16 bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800 rounded-b-[2rem] shadow-xl relative overflow-hidden">
+                    {/* Keyboard texture */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+                    
+                    {/* Apple Logo Area */}
+                    <div className="absolute inset-x-0 top-2 h-1 bg-gradient-to-r from-transparent via-gray-500 dark:via-gray-400 to-transparent opacity-60"></div>
+                    
+                    {/* Trackpad indication */}
+                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-3 bg-gray-400/30 dark:bg-gray-500/30 rounded border border-gray-500/20"></div>
+                  </div>
+                  
+                  {/* Bottom edge highlight */}
+                  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-300 to-transparent"></div>
+                </div>
+                
+                {/* Screen Reflection */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent rounded-t-[2rem] pointer-events-none"></div>
+                
+                {/* Ambient glow */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-blue-500/5 blur-xl rounded-3xl -z-10"></div>
               </div>
-              
-              {/* MacBook Base */}
-              <div className="h-8 bg-gradient-to-b from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-b-3xl shadow-lg relative">
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-500 to-transparent"></div>
-              </div>
-              
-              {/* Reflection */}
-              <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white/10 rounded-3xl pointer-events-none"></div>
             </div>
           </div>
         </div>
@@ -531,6 +599,10 @@ const Landing = () => {
                   ? `Limited Time: ${userCount}/400 Early Bird Users`
                   : 'Early Bird Pricing Has Ended'
                 }
+              </Badge>
+              <Badge className="bg-gradient-to-r from-purple-400/20 to-pink-400/20 text-purple-300 border-purple-400/30 animate-pulse">
+                <Crown className="w-3 h-3 mr-1" />
+                {premiumUserCount} Premium Users Active
               </Badge>
               {userCount < 400 && (
                 <p className="text-sm text-muted-foreground">
