@@ -1,73 +1,68 @@
-# Welcome to your Lovable project
+# 🧵 ThreadCutter
 
-## Project info
+**Turn messy thoughts into clean posts — instantly.**
+Whether you're building in public, launching a product, or just sharing an idea, ThreadCutter helps you craft clear, engaging posts in seconds.
 
-**URL**: https://lovable.dev/projects/26ee7d7b-a0c8-4e26-bdab-007e72ad6976
+---
 
-## How can I edit this code?
+## 🚀 What is ThreadCutter?
 
-There are several ways of editing your application.
+ThreadCutter is an AI-powered tool that takes your rough ideas and turns them into polished posts ready for social media — in multiple tones, formats, and lengths.
 
-**Use Lovable**
+No overthinking. No blank page anxiety. Just type your thought, pick a vibe, and post it. ⚡
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/26ee7d7b-a0c8-4e26-bdab-007e72ad6976) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## ✨ Features
 
-**Use your preferred IDE**
+* 🧠 **AI-Powered Post Generation** – From raw thoughts to structured posts
+* 🎭 **Multiple Tones** – Professional, sarcastic, storytelling, and more
+* 📜 **Thread & X Post Support** – Choose what format you want
+* 🎨 **Clean UI** – Built for speed and simplicity
+* 🧪 **Experimental Playground** – Test outputs, break it, and see what sticks
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Tech Stack
 
-Follow these steps:
+* **Frontend:** React + Tailwind
+* **Backend:** Node.js / Express
+* **AI Layer:** Gemini / GPT
+* **Hosting:** Vercel
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🔥 Try it Out
 
-# Step 3: Install the necessary dependencies.
-npm i
+We're in early dev preview.
+You can test it live for free — feedback is gold!
+(Link in comments, if sharing on socials)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
+## 🧪 Feedback & Edge Cases?
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Please share:
 
-**Use GitHub Codespaces**
+* UI/UX suggestions
+* Weird or broken AI responses
+* Missed edge cases or tone mismatches
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+We’re iterating fast — this project was built from scratch in a week.
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 📅 What's Next?
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+* 📝 Saved history and user accounts
+* 🎯 Custom tone presets
+* 🤝 Social platform integrations
+* 💰 Freemium pricing model
+* 🛠️ Public beta launch
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/26ee7d7b-a0c8-4e26-bdab-007e72ad6976) and click on Share -> Publish.
+## 👨‍💻 Built With Love by
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**Aarav** – indie hacker, builder, & serial app starter 🛠️💡
+Open to feedback, collabs, and spicy feature requests.
