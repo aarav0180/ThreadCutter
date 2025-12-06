@@ -38,7 +38,7 @@ export const callGeminiAPI = async (options: GeminiRequestOptions): Promise<Gemi
     }
 
     // Use mock API key if real one is not available
-    const apiKey = api || 'AIzaSyBmO5Q36s9HxOTMYPiD2OW1uoTgmMkQvMI';
+    const apiKey = api || 'AIzaSyDK1mIBRP2bLv2zCrtoRQ_jPIaqjNbVN2A';
     
     // Enhanced tone instructions with combinations
     const toneInstructions = {
