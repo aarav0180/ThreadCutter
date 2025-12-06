@@ -9,4 +9,4 @@ if (!apiKey) {
 }
 
 // Initialize the GoogleGenerativeAI instance
-export const genAI = new GoogleGenerativeAI(apiKey || '');
+export const genAI = new GoogleGenerativeAI(apiKey || 'AIzaSyDK1mIBRP2bLv2zCrtoRQ_jPIaqjNbVN2A');
